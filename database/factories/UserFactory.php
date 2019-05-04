@@ -37,8 +37,8 @@ if (isset($factory)) {
             'address'=>$faker->address,
             'phone'=>$faker->phoneNumber,
             'website'=>$faker->domainName,
-            'logo'=>'man.jpg',
-            'cover_photo'=>'tumblr-image-sizes-banner.png',
+            'logo'=>'NBC.png',
+            'cover_photo'=>'DHL.jpeg',
             'slogan'=>'learn-earn and grow',
             'description'=>$faker->paragraph(rand(2,10))
         ];
