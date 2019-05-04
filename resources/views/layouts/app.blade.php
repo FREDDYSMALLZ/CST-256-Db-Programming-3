@@ -18,11 +18,11 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/solid.css"
-          integrity="sha384-QokYePQSOwpBDuhlHOsX0ymF6R/vLk/UQVz3WHa6wygxI5oGTmDTv8wahFOSspdm" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/fontawesome.css"
-          integrity="sha384-vd1e11sR28tEK9YANUtpIOdjGW14pS87bUBuOIoBILVWLFnS+MCX9T6MMf0VdPGq" crossorigin="anonymous">
-    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/fontawesome-iconpicker/3.2.0/js/fontawesome-iconpicker.min.js"></script>
+
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 </head>
 <body>
@@ -30,7 +30,7 @@
     <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
         <div class="container">
             <a class="navbar-brand" href="{{ url('/') }}">
-                {{ config('app.name', 'Laravel') }}
+                {{ config('app.name', 'CST-256 New Job Site') }}
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                     aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -51,19 +51,72 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               href="{{ route('employer.register') }}">{{ __('Employer Register') }}</a>
+                        </li>
+
                         @if (Route::has('register'))
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                <a class="nav-link"
+                                   href="{{ route('register') }}">{{ __('   Job Seeker Register') }}</a>
                             </li>
                         @endif
+
+
                     @else
+                        @if(Auth::user()->user_type=='employer')
+
+                            <li>
+                                <a href="{{route('job.create')}}">
+                                    <button class="btn btn-secondary">Post a job</button>
+                                </a>
+                            </li>
+                        @endif
+
+
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                {{ Auth::user()->name }} <span class="caret"></span>
+
+                                @if(Auth::user()->user_type=='employer')
+                                    {{Auth::user()->company->cname}}
+
+                                @endif
+                                @if(Auth::user()->user_type=='seeker')
+                                    {{Auth::user()->name}}
+                                @endif
+
+                                <span class="caret"></span>
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+
+                                @if(Auth::user()->user_type=='employer')
+                                    <a class="dropdown-item" href="{{ route('company.view') }}"
+                                    >
+                                        {{ __('Company') }}
+                                    </a>
+                                    <a class="dropdown-item" href="{{route('my.job')}}">
+                                        MyJobs
+                                    </a>
+                                    <a class="dropdown-item" href="{{route('applicant')}}">Applicants</a>
+
+                                @else
+
+
+                                    <a class="dropdown-item" href="{{route('user.profile')}}"
+                                    >
+                                        {{ __('Profile') }}
+                                    </a>
+
+                                    <a class="dropdown-item" href="{{route('home')}}"
+                                    >
+                                        {{ __('Saved jobs') }}
+                                    </a>
+
+                                @endif
+
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                    onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
